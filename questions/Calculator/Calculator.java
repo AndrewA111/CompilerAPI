@@ -1,0 +1,1 @@
+public class Calculator {		public static int add(int a, int b) {		return a + b;	}		public static int subtract(int a, int b) {		return a - b;	}		public static int square(int a) {		return a * a;	}		public static double atob(double a, double b) {				double out = 1;				for(int i = 0; i < b; i++) {			out *= a;		}				return out;	}}
