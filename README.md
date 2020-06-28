@@ -1,5 +1,7 @@
 # CompileAPI
 
+API for MSc Summer Project
+
 How to start the CompileAPI application
 ---
 
