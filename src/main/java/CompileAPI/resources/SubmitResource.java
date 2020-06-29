@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import javax.ws.rs.Consumes;
@@ -15,6 +17,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.apache.commons.io.FileUtils;
 
 import CompileAPI.api.SubmittedFiles;
 
@@ -43,14 +47,25 @@ public class SubmitResource {
 		// get project root dir
 		String currDir = System.getProperty("user.dir");
 		
-		// get destination direction for compilation
-		String destDir = currDir + "/questions/" + question + "/";
+		// get question destination
+		String questDir = currDir + "/questions/" + question + "/";
 		
-		// director of compiler program
+		// directory of compiler program
 		String compDir = currDir + "/testCompiler/";
 		
+		// create temp file directory for code execution
+		String destDir = currDir + "/temp/" + System.nanoTime() + "/";
+		File destDirF = null;
+		
+		// copy question files to temp 
+		try {
+			FileUtils.copyDirectory(new File(questDir), destDirF = new File(destDir));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		// create file to store received file
-		File javaFile = new File(destDir + submittedFiles.getFiles()[0].getName());
+		File javaFile = new File(destDir + "/" + submittedFiles.getFiles()[0].getName());
 		
 		// String to store output to return to client
 		String output = null;
@@ -79,12 +94,21 @@ public class SubmitResource {
 					// argument
 					+ destDir);
 			
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
+		// delete temporary directory
+		try {
+			FileUtils.deleteDirectory(destDirF);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		return output;
 	}
 	
@@ -93,13 +117,14 @@ public class SubmitResource {
 	 */
 	
 	/**
-	 * Method to print a command 'name' and lines of a passed input stream
+	 * Method to convert a command 'name' and lines of a passed input stream
+	 * to a String
 	 * @param name command
 	 * @param ins input stream
 	 * @return input stream as a String
 	 * @throws Exception
 	 */
-	private static String printLines(String name, InputStream ins) {
+	private static String linesToString(String name, InputStream ins) {
 		
 		// String for each line
 		String line = null;
@@ -140,8 +165,8 @@ public class SubmitResource {
 			pro = Runtime.getRuntime().exec(command);
 			
 			// get standard and error output
-			String sOut = printLines(command + " stdout:", pro.getInputStream());
-			String sErr = printLines(command + " stderr:", pro.getErrorStream());
+			String sOut = linesToString(command + " stdout:", pro.getInputStream());
+			String sErr = linesToString(command + " stderr:", pro.getErrorStream());
 			
 			// wait for process to finish
 			pro.waitFor();
