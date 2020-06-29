@@ -47,8 +47,8 @@ public class SubmitResource {
 		// get project root dir
 		String currDir = System.getProperty("user.dir");
 		
-		// get question destination
-		String questDir = currDir + "/questions/" + question + "/";
+		// get question supporting files location
+		String questDir = currDir + "/questions/" + question + "/sub/";
 		
 		// directory of compiler program
 		String compDir = currDir + "/testCompiler/";

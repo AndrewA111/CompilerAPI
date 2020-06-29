@@ -13,6 +13,7 @@ public class SubmittedFiles {
 	// array of files
 	private FileDetails[] files;
 	
+	// empty constructor for JSONifying
 	public SubmittedFiles() {
 		
 	}
