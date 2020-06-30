@@ -200,7 +200,7 @@ public class QuestionCompiler {
             // Loop while new lines available
             while ((line = input.readLine()) != null) {
                 // Add line to output string
-                lines += line;
+                lines += line + "\n";
             }
             return lines;
         } catch (IOException e) {

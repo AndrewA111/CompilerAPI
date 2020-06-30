@@ -140,7 +140,7 @@ public class SubmitResource {
 		try {
 			while ((line = in.readLine()) != null) {
 				System.out.println(name + " " + line);
-				lines += line;
+				lines += line + "\n\n";
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
