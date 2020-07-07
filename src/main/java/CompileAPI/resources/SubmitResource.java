@@ -24,7 +24,7 @@ import CompileAPI.api.SubmittedFiles;
 
 
 
-@Path("/{question}/submit")
+@Path("/java/submit")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 /**
@@ -38,77 +38,85 @@ import CompileAPI.api.SubmittedFiles;
 public class SubmitResource {
 	
 	@POST
-	public String submit(@PathParam("question") String question,
-						SubmittedFiles submittedFiles) {
+	public String submit(SubmittedFiles submittedFiles) {
 		
-		// print received JSON object
-		System.out.println(submittedFiles);
+//		// print received JSON object
+//		System.out.println(submittedFiles);
 		
 		// get project root dir
 		String currDir = System.getProperty("user.dir");
 		
-		// get question supporting files location
-		String questDir = currDir + "/questions/" + question + "/sub/";
+//		// get question supporting files location
+//		String questDir = currDir + "/questions/" + question + "/sub/";
 		
 		// directory of compiler program
 		String compDir = currDir + "/testCompiler/";
 		
 		// create temp file directory for code execution
 		String destDir = currDir + "/temp/" + System.nanoTime() + "/";
-		File destDirF = null;
+		new File(destDir).mkdirs();
 		
-		// copy question files to temp 
+		// Add TestRunner.java into temp dir
+		String testRunnerLoc = currDir + "/testRunner/TestRunner.java";
 		try {
-			FileUtils.copyDirectory(new File(questDir), destDirF = new File(destDir));
+			FileUtils.copyFileToDirectory(new File(testRunnerLoc), 
+										new File(destDir));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
-		// create file to store received file
-		File javaFile = new File(destDir + "/" + submittedFiles.getFiles()[0].getName());
+//		// copy question files to temp 
+//		try {
+//			FileUtils.copyDirectory(new File(questDir), destDirF = new File(destDir));
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+		
+		for(int i = 0; i < submittedFiles.getFiles().length; i++) {
+			
+			// create file to store received file
+			File javaFile = new File(destDir + "/" + submittedFiles.getFiles()[i].getName());
+			
+			// writer for creating .java file
+			PrintWriter pw;
+			try {
+				pw = new PrintWriter(new FileWriter(javaFile));
+				
+				// scan input & write a new line for each line break (\n)
+				Scanner s = new Scanner(submittedFiles.getFiles()[i].getContent()).useDelimiter("\n");
+				while(s.hasNext()) {
+					pw.write(s.next() + "\n");
+				}
+				pw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		// String to store output to return to client
 		String output = null;
-		
-		try {
+	
+		/*
+		 *  run QuestionCompiler program using java command, 
+		 *  passing destination directory as an argument
+		 */
+		output = runProcess("java -cp "
+				
+				// program path
+				+ compDir + " QuestionCompiler "
+				
+				// argument
+				+ destDir);
 			
-			// writer for creating .java file
-			PrintWriter pw = new PrintWriter(new FileWriter(javaFile));
-			
-			// scan input & write a new line for each line break (\n)
-			Scanner s = new Scanner(submittedFiles.getFiles()[0].getContent()).useDelimiter("\n");
-			while(s.hasNext()) {
-				pw.write(s.next());
-			}
-			pw.close();
-			
-			/*
-			 *  run QuestionCompiler program using java command, 
-			 *  passing destination directory as an argument
-			 */
-			output = runProcess("java -cp "
-					
-					// program path
-					+ compDir + " QuestionCompiler "
-					
-					// argument
-					+ destDir);
-			
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		// delete temporary directory
 		try {
-			FileUtils.deleteDirectory(destDirF);
+			FileUtils.deleteDirectory(new File(destDir));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
+		// return output from compiler
 		return output;
 	}
 	
