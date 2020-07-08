@@ -1,7 +1,6 @@
 package CompileAPI;
 
 
-import CompileAPI.resources.DownloadResource;
 import CompileAPI.resources.SubmitResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
@@ -27,11 +26,10 @@ public class CompileAPIApplication extends Application<CompileAPIConfiguration> 
     public void run(final CompileAPIConfiguration configuration,
                     final Environment environment) {
     	
+    	// register the submission resource
     	final SubmitResource submitResource = new SubmitResource();
     	environment.jersey().register(submitResource);
     	
-    	final DownloadResource downloadResource = new DownloadResource();
-    	environment.jersey().register(downloadResource);
     }
 
 }

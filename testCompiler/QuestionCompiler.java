@@ -83,8 +83,7 @@ public class QuestionCompiler {
                 compOut = compOut.replace(folderLocation, "");
 
                 // Print
-                System.out.println("Compilation error\n" + compOut);
-                return;
+                System.out.println("Compilation output:\n" + compOut);
             }
 
             /*

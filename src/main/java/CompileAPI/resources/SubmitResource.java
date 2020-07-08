@@ -46,9 +46,6 @@ public class SubmitResource {
 		// get project root dir
 		String currDir = System.getProperty("user.dir");
 		
-//		// get question supporting files location
-//		String questDir = currDir + "/questions/" + question + "/sub/";
-		
 		// directory of compiler program
 		String compDir = currDir + "/testCompiler/";
 		
@@ -65,13 +62,7 @@ public class SubmitResource {
 			e1.printStackTrace();
 		}
 		
-//		// copy question files to temp 
-//		try {
-//			FileUtils.copyDirectory(new File(questDir), destDirF = new File(destDir));
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-		
+		// loop through incoming files and write them to temp folder
 		for(int i = 0; i < submittedFiles.getFiles().length; i++) {
 			
 			// create file to store received file
@@ -103,7 +94,7 @@ public class SubmitResource {
 		 */
 		output = runProcess("java -cp "
 				
-				// program path
+				// program classpath and target file name
 				+ compDir + " QuestionCompiler "
 				
 				// argument
