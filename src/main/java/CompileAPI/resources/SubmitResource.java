@@ -54,9 +54,9 @@ public class SubmitResource {
 		new File(destDir).mkdirs();
 		
 		// Add TestRunner.java into temp dir
-		String testRunnerLoc = currDir + "/testRunner/TestRunner.java";
+		String testRunnerLoc = currDir + "/testRunner/";
 		try {
-			FileUtils.copyFileToDirectory(new File(testRunnerLoc), 
+			FileUtils.copyDirectory(new File(testRunnerLoc), 
 										new File(destDir));
 		} catch (IOException e1) {
 			e1.printStackTrace();

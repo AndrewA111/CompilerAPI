@@ -45,15 +45,20 @@ public class QuestionCompiler {
             
             // get project root dir
             String currDir = System.getProperty("user.dir");
-
-            // set dependency locations
-            final String JUNIT_LOC = currDir + "/testCompiler/junit-4.13.jar";
-            final String HAMCREST_CORE_LOC = currDir + "/testCompiler/hamcrest-core-1.3.jar";
-
+            
             // if on windows OS, change cpSeparator
             if(System.getProperty("os.name").toLowerCase().contains("windows")){
                 cpSeparator = ";";
             }
+
+            // set dependency locations
+            final String JUNIT_LOC = currDir + "/testCompiler/junit-4.13.jar";
+            final String HAMCREST_CORE_LOC = currDir + "/testCompiler/hamcrest-core-1.3.jar";
+            final String JACKSON_LOC = currDir + "/testCompiler/jackson-core-2.11.1.jar" + cpSeparator +
+            		currDir + "/testCompiler/jackson-annotations-2.11.1.jar" + cpSeparator +
+            		currDir + "/testCompiler/jackson-databind-2.11.1.jar";
+
+
             
             // String to build file names for arguments to javac
             String javaFiles = "";
@@ -70,7 +75,7 @@ public class QuestionCompiler {
 
             // Compile and run tests
             String compOut = runCompile("javac -cp " 
-                                        + folderLocation + cpSeparator + JUNIT_LOC + " " + 
+                                        + folderLocation + cpSeparator + JUNIT_LOC + cpSeparator + JACKSON_LOC + " " + 
                                         javaFiles);
 
             /*
@@ -93,7 +98,8 @@ public class QuestionCompiler {
              *  which runs all tests and returns results.
              */
             String result = runTests("java -cp " + 
-                                    folderLocation + cpSeparator + JUNIT_LOC + cpSeparator + HAMCREST_CORE_LOC + 
+                                    folderLocation + cpSeparator + JUNIT_LOC + cpSeparator + 
+                                    HAMCREST_CORE_LOC + cpSeparator + JACKSON_LOC +
                                     " TestRunner");
 
             // Empty string indicates tests passsed, print 0 to indicate
