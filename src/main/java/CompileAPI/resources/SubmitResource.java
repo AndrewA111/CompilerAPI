@@ -20,6 +20,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.FileUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import CompileAPI.api.ResultsMessage;
 import CompileAPI.api.SubmittedFiles;
 
 
@@ -173,8 +176,16 @@ public class SubmitResource {
 			// Print exit value
 			System.out.println(command + " exitValue() " + pro.exitValue());
 			
+			// create message (output and error) and convert to JSON
+			ResultsMessage message = new ResultsMessage(sOut, sErr);
+			
+			ObjectMapper mapper = new ObjectMapper();
+			
+			String jsonMessage = mapper.writeValueAsString(message);
+			
 			// return output
-			return sOut + sErr;
+			return jsonMessage;
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
