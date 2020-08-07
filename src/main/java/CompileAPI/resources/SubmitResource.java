@@ -183,6 +183,8 @@ public class SubmitResource {
 			
 			String jsonMessage = mapper.writeValueAsString(message);
 			
+			System.out.println(jsonMessage);
+			
 			// return output
 			return jsonMessage;
 			

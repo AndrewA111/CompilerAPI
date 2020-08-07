@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,6 +16,11 @@ public class TestRunner {
 		 * 
 		 */
 		Map<String, TestInfo> outputMap = new LinkedHashMap<String, TestInfo>();
+
+		/*
+		 * Create metadata object
+		 */
+		TestMetadata meta = new TestMetadata();
 		
 		/*
 		 *  Setup JUnit
@@ -23,26 +29,39 @@ public class TestRunner {
 		 *  
 		 */
 		JUnitCore core = new JUnitCore();
-		CustomListener listener = new CustomListener(outputMap);
+		CustomListener listener = new CustomListener(outputMap, meta);
 		core.addListener(listener);
 		
 		// run tests
 		core.run(Tests.class);       
 		
-		// ######## Testing #########
-        // Iterator<Map.Entry<String, TestInfo>> it = outputMap.entrySet().iterator();
+		// Get iterator
+        Iterator<Map.Entry<String, TestInfo>> it = outputMap.entrySet().iterator();
+
+        // arraylist to store values 
+        ArrayList<TestInfo> infoList = new ArrayList<TestInfo>();
         
-        // while(it.hasNext()) {
-        // 	Map.Entry<String, TestInfo> entry = it.next();
+        while(it.hasNext()) {
+        	Map.Entry<String, TestInfo> entry = it.next();
         	
-        // 	System.out.println(entry.getValue());
-        // }
+        	infoList.add(entry.getValue());
+        }
         
+        // convert to array
+        TestInfo[] infoArray = new TestInfo[infoList.size()];
+        infoArray = infoList.toArray(infoArray);
+
+        // build response object
+        TestJsonResponse response = new TestJsonResponse(meta.getNumTests(),
+        												meta.getNumFailed(),
+        												infoArray);
+        
+        // string to store json response
         String json = "";
         
         // Convert to JSON
         try {
-			json = new ObjectMapper().writeValueAsString(outputMap);
+			json = new ObjectMapper().writeValueAsString(response);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

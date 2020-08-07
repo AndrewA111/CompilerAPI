@@ -15,15 +15,21 @@ public class CustomListener extends RunListener {
 	
 	// map for storing test information
 	Map<String, TestInfo> outputMap;
+
+	// metadata object
+	TestMetadata meta;
 	
 	// Constructor 
-	public CustomListener(Map<String, TestInfo> outputMap) {
+	public CustomListener(Map<String, TestInfo> outputMap, TestMetadata meta) {
 		
 		// call superconstructor
 		super();
 		
 		// set map
 		this.outputMap = outputMap;
+
+		// set metadata
+		this.meta = meta;
 	}
 	
 	/**
@@ -32,6 +38,9 @@ public class CustomListener extends RunListener {
 	 * Creates the TestInfo object and populates name and descirption (if available)
 	 */
 	public void testStarted(Description description) {
+
+		// increment test count
+		meta.incrementNumTests();
 		
 		// create entry for this test
 		this.outputMap.put(description.getMethodName(), 
@@ -64,6 +73,9 @@ public class CustomListener extends RunListener {
 	 * If a test fails, set 'passed'  boolean to false;
 	 */
 	public void testFailure(Failure failure){
+
+		// increment failure count
+		meta.incrementNumFailed();
 		
 		// get method (key to map)
 		String testMethodName = failure.getDescription().getMethodName();
