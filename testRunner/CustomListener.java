@@ -2,6 +2,7 @@ import java.util.Map;
 import org.junit.runner.Description;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
+import org.junit.Test;
 
 
 /**
@@ -39,6 +40,11 @@ public class CustomListener extends RunListener {
 	 */
 	public void testStarted(Description description) {
 
+		// if not a an annotated test return
+		if(description.getAnnotation(Test.class) == null) {
+			return;
+		}
+
 		// increment test count
 		meta.incrementNumTests();
 		
@@ -73,6 +79,11 @@ public class CustomListener extends RunListener {
 	 * If a test fails, set 'passed'  boolean to false;
 	 */
 	public void testFailure(Failure failure){
+
+		// if initializationError (no tests) return
+		if(failure.getTestHeader().equals("initializationError(Tests)")) {
+			return;
+		}
 
 		// increment failure count
 		meta.incrementNumFailed();
