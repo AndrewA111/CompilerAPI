@@ -95,13 +95,22 @@ public class SubmitResource {
 		 *  run QuestionCompiler program using java command, 
 		 *  passing destination directory as an argument
 		 */
-		output = runProcess("java -cp "
+//		output = runProcess("java -cp "
+//				
+//				// program classpath and target file name
+//				+ compDir + " QuestionCompiler "
+//				
+//				// argument
+//				+ destDir);
+		
+		// run docker container to compile code
+		output = runProcess("docker run -v "
 				
-				// program classpath and target file name
-				+ compDir + " QuestionCompiler "
+				// mount submitted files to container
+				+ destDir + ":/root/compile/Files:ro "
 				
-				// argument
-				+ destDir);
+				// image
+				+ "mount_compiler");
 			
 		// delete temporary directory
 		try {
