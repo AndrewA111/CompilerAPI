@@ -92,6 +92,8 @@ public class SubmitResource {
 		String output = null;
 	
 		/*
+		 *  --- For local testing without container encapsulation ---
+		 *  
 		 *  run QuestionCompiler program using java command, 
 		 *  passing destination directory as an argument
 		 */
@@ -103,8 +105,13 @@ public class SubmitResource {
 //				// argument
 //				+ destDir);
 		
-		// run docker container to compile code
-		output = runProcess("docker run -v "
+		/*
+		 * --- Compiler code and execute tests in docker container ---
+		 * 
+		 * Run container, mounting the files for compilation
+		 * 
+		 */
+		output = runProcess("docker run --rm -v "
 				
 				// mount submitted files to container
 				+ destDir + ":/root/compile/Files:ro "

@@ -12,6 +12,9 @@ public class TestInfo {
 	
 	// description
 	String description;
+
+	// hint
+	String hint;
 	
 	// pass/fail status
 	boolean passed;
@@ -60,6 +63,15 @@ public class TestInfo {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	@JsonProperty
+	public String getHint() {
+		return hint;
+	}
+
+	public void setHint(String hint) {
+		this.hint = hint;
+	}
 	
 	@JsonProperty
 	public boolean isPassed() {
@@ -85,6 +97,7 @@ public class TestInfo {
 		
 		output += "Name: " + this.name + "\n";
 		output += "Description: " + this.description + "\n";
+		output += "Hint: " + this.hint + "\n";
 		output += "Passed: " + this.passed + "\n";
 		output += "Failure Text: " + this.failureText + "\n";
 		
