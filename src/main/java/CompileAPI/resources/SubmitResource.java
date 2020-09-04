@@ -106,18 +106,30 @@ public class SubmitResource {
 //				+ destDir);
 		
 		/*
-		 * --- Compiler code and execute tests in docker container ---
+		 * --- Running container directly (no timeout) ---
 		 * 
 		 * Run container, mounting the files for compilation
 		 * 
 		 */
-		output = runProcess("docker run --rm -v "
-				
-				// mount submitted files to container
-				+ destDir + ":/root/compile/Files:ro "
-				
-				// image
-				+ "mount_compiler");
+//		output = runProcess("docker run --rm -v "
+//				
+//				// mount submitted files to container
+//				+ destDir + ":/root/compile/Files:ro "
+//				
+//				// image
+//				+ "mount_compiler");
+		
+		/*
+		 * --- Running container via timeout script ---
+		 * 
+		 * Runs compile.sh which executes tests in a docker
+		 * container.
+		 * 
+		 * Will exit yielding 'Execution timed out' if 
+		 * execution time exceeds 10 seconds
+		 * 
+		 */
+		output = runProcess(currDir + "/compile.sh " + destDir);
 			
 		// delete temporary directory
 		try {
