@@ -65,12 +65,30 @@ public class CustomListener extends RunListener {
 			// get map entry and set its description
 			outputMap.get(description.getMethodName()).setDescription(descriptionText);
 			
-		}
-		
+		}		
 		// if no description, set empty string
 		else {
 			// get map entry and set its description
 			outputMap.get(description.getMethodName()).setDescription("");
+		}
+
+		// Check for hint annotation
+		if(description.getAnnotation(TestDescription.class) != null) {
+
+			// get annotation
+			TestHint th = description.getAnnotation(TestHint.class);
+
+			// get value
+			String hintText = th.value();
+
+			// get map entry and set its hint
+			outputMap.get(description.getMethodName()).setHint(hintText);
+
+		}
+		// if no hint, set empty string
+		else{
+			// get map entry and set its hint
+			outputMap.get(description.getMethodName()).setHint("");
 		}
 		
 	}

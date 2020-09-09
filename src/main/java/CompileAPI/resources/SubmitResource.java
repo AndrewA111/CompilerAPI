@@ -92,16 +92,44 @@ public class SubmitResource {
 		String output = null;
 	
 		/*
+		 *  --- For local testing without container encapsulation ---
+		 *  
 		 *  run QuestionCompiler program using java command, 
 		 *  passing destination directory as an argument
 		 */
-		output = runProcess("java -cp "
-				
-				// program classpath and target file name
-				+ compDir + " QuestionCompiler "
-				
-				// argument
-				+ destDir);
+//		output = runProcess("java -cp "
+//				
+//				// program classpath and target file name
+//				+ compDir + " QuestionCompiler "
+//				
+//				// argument
+//				+ destDir);
+		
+		/*
+		 * --- Running container directly (no timeout) ---
+		 * 
+		 * Run container, mounting the files for compilation
+		 * 
+		 */
+//		output = runProcess("docker run --rm -v "
+//				
+//				// mount submitted files to container
+//				+ destDir + ":/root/compile/Files:ro "
+//				
+//				// image
+//				+ "mount_compiler");
+		
+		/*
+		 * --- Running container via timeout script ---
+		 * 
+		 * Runs compile.sh which executes tests in a docker
+		 * container.
+		 * 
+		 * Will exit yielding 'Execution timed out' if 
+		 * execution time exceeds 10 seconds
+		 * 
+		 */
+		output = runProcess(currDir + "/compile.sh " + destDir);
 			
 		// delete temporary directory
 		try {
