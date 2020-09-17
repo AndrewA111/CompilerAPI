@@ -1,6 +1,14 @@
-# CompileAPI
+## CompileAPI - Compiler Web-service for MSc Project
 
-API for MSc Summer Project
+API for compiling and testing code sent from MSc Project Web-App
+
+## Setup
+
+### Building the Docker Image
+
+Code is executed in containers using Docker. Before running the application the Docker image must be build.
+
+Navigate to '/MountDockerfile' and execute the following code
 
 How to start the CompileAPI application
 ---
