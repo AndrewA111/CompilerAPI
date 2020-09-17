@@ -6,18 +6,26 @@ API for compiling and testing code sent from MSc Project Web-App
 
 ### Building the Docker Image
 
-Code is executed in containers using Docker. Before running the application the Docker image must be build.
+Code is executed in containers using Docker. Please insuure Docker is installed. 
 
-Navigate to '/MountDockerfile' and execute the following code
+Before running the application the Docker image must be built.Navigate to `/MountDockerfile` and execute the following code:
 
-How to start the CompileAPI application
----
+> `docker build -t mount_compiler .` 
 
-1. Run `mvn clean install` to build your application
-1. Start application with `java -jar target/CompileAPI-1.0-SNAPSHOT.jar server config.yml`
-1. To check that your application is running enter url `http://localhost:8080`
+A Docker image titled `mount_compiler` should be build, you can check by entering:
 
-Health Check
----
+>`docker image ls`
 
-To see your applications health enter url `http://localhost:8081/healthcheck`
+### Building the Application
+
+Maven is used as the build tool. In the root directory enter the following:
+
+>`mvn clean package`
+
+### Running the Application
+
+In the root directory, enter the following:
+
+>`java -jar target/CompileAPI-1.0-SNAPSHOT.jar server`
+
+The application should then begin running on 0.0.0.0:8000.
