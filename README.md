@@ -4,15 +4,17 @@ API for compiling and testing code sent from MSc Project Web-App
 
 ## Setup
 
+Note, this application has been developed using the OpenJDK 11 Java implementation.
+
 ### Building the Docker Image
 
-Code is executed in containers using Docker. Please insuure Docker is installed. 
+Code is executed in containers using Docker. Docker version 19.03.12 has been used to develop this application. 
 
-Before running the application the Docker image must be built.Navigate to `/MountDockerfile` and execute the following code:
+Before running the application the Docker image must be built. Navigate to `/MountDockerfile` and execute the following code:
 
 > `docker build -t mount_compiler .` 
 
-A Docker image titled `mount_compiler` should be build, you can check by entering:
+A Docker image titled `mount_compiler` should be built, you can check by entering:
 
 >`docker image ls`
 
