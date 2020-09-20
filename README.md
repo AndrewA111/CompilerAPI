@@ -12,22 +12,22 @@ Code is executed in containers using Docker. Docker version 19.03.12 has been us
 
 Before running the application the Docker image must be built. Navigate to `/MountDockerfile` and execute the following code:
 
-> `docker build -t mount_compiler .` 
+`docker build -t mount_compiler .` 
 
 A Docker image titled `mount_compiler` should be built, you can check by entering:
 
->`docker image ls`
+`docker image ls`
 
 ### Building the Application
 
 Maven is used as the build tool. In the root directory enter the following:
 
->`mvn clean package`
+`mvn clean package`
 
 ### Running the Application
 
 In the root directory, enter the following:
 
->`java -jar target/CompileAPI-1.0-SNAPSHOT.jar server`
+`java -jar target/CompileAPI-1.0-SNAPSHOT.jar server`
 
 The application should then begin running on 0.0.0.0:8000.
