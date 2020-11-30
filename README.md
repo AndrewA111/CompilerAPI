@@ -1,6 +1,6 @@
-## CompileAPI - Compiler Web-service for MSc Project
+## CompilerAPI - Compiler Web-service for MSc Project
 
-API for compiling and testing code sent from MSc Project Web-App
+API for compiling and testing code sent from [MSc Project Web-App](https://github.com/AndrewA111/ProjectWebApp)
 
 ## Setup
 
